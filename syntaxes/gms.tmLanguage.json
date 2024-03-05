@@ -34,6 +34,21 @@
 		},
 		{
 			"include": "#semicolon_after_group"
+		},
+		{
+			"include": "#custom_keywords"
+		},
+		{
+			"include": "#math"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#double_dots"
+		},
+		{
+			"include": "#math_signs"
 		}
 	],
 	"repository": {
@@ -81,7 +96,7 @@
 			"match": "\\.(lo|up|fx|l|m|scale|prior|stage)\\b"
 		},
 		"gamY_functions": {
-			"name": "keyword.operator.gams",
+			"name": "keyword.control.gms",
 			"match": "@\\w+(?=\\(.*?\\))"
 		},
 		"following_text": {
@@ -91,6 +106,26 @@
 		"semicolon_after_group": {
 			"name": "keyword.control.gms",
 			"match": "(?<=\\$GROUP[\\s\\S]*?);"
+		},
+		"custom_keywords": {
+			"name": "keyword.control.gms",
+			"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|MODELS?|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b"
+		},
+		"math": {
+			"name": "support.function.math.gms",
+			"match": "(?i)\\b(ABS|ARCCOS|ARCSIN|ARCTAN|ARCTAN2|BETA|BETAREG|BINOMIAL|BOOL_(AND|EQV|IMP|NOT|OR|XOR)|CEIL|CENTROPY|COS|COSH|CVPOWER|DIV|DIV0|EDIST|ENTROPY|ERRORF|EXECSEED|EXP|FACT|FLOOR|FRAC|GAMMA|GAMMAREG|IFTHEN|LOG|LOG2|LOG10|LOGBETA|LOGGAMMA|MAPVAL|MAX|MIN|MOD|NCP(CM|F|VUPOW|VUSIN)|NORMAL|PI|POLY|POWER|RANDBINOMIAL|RANDLINEAR|RANDTRIANGLE|ROUND|RPOWER|SIGMOID|SIGN|SIGNPOWER|SIN|SINH|SL(EXP|LOG10|REC)|SQ(EXP|LOG10|R|REC|RT)|TANH?|TRUNC|UNIFORM|UNIFORMINT|VCPOWER)\\b"
+		},
+		"numbers": {
+			"name": "constant.numeric.gms",
+			"match": "\\b\\d+(\\.\\d+)?([eE][-+]?\\d+)?\\b"
+		},
+		"double_dots": {
+			"name": "entity.name.type.gms",
+			"match": "\\.\\."
+		},
+		"math_signs": {
+			"name": "entity.name.type.gms",
+			"match": "[+\\-*/^]"
 		}
 	},
 	"scopeName": "source.gms"

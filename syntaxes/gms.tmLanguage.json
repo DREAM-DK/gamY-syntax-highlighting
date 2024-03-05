@@ -1,0 +1,97 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "GAMS",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#gamY_commands"
+		},
+		{
+			"include": "#brackets"
+		},
+		{
+			"include": "#Conditions"
+		},
+		{
+			"include": "#equationSeparator"
+		},
+		{
+			"include": "#VariableSuffix"
+		},
+		{
+			"include": "#gamY_functions"
+		},
+		{
+			"include": "#following_text"
+		},
+		{
+			"include": "#semicolon_after_group"
+		}
+	],
+	"repository": {
+		"equationSeparator": {
+			"name": "entity.name.type.gms",
+			"match": "(?i)(=e=|=l=|=g=|=x=)"
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.gms",
+				"match": "\\b(if|while|for|return)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.gms",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.gms",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comments": {
+			"name": "comment.line.gms",
+			"match": "#.*"
+		},
+		"gamY_commands": {
+			"patterns": [{
+				"name": "keyword.control.gms",
+				"match": "(?i)(\\$\\b(IMPORT|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b)|\\bMODEL\\b"
+			}]
+		},
+		"brackets": {
+			"name": "entity.name.type.gms",
+			"match": "\\[.*?\\]"
+		},
+		"Conditions": {
+			"name": "entity.name.function.gms",
+			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))|(\\$[^\\s]*\\s)"
+		},
+		"VariableSuffix": {
+			"name": "entity.name.function.gms",
+			"match": "\\.(lo|up|fx|l|m|scale|prior|stage)\\b"
+		},
+		"gamY_functions": {
+			"name": "keyword.operator.gams",
+			"match": "@\\w+(?=\\(.*?\\))"
+		},
+		"following_text": {
+			"name": "keyword.operator.gams",
+			"match": "(?<=\\$(GROUP|BLOCK)\\s)\\b\\w+\\b"
+		},
+		"semicolon_after_group": {
+			"name": "keyword.control.gms",
+			"match": "(?<=\\$GROUP[\\s\\S]*?);"
+		}
+	},
+	"scopeName": "source.gms"
+}

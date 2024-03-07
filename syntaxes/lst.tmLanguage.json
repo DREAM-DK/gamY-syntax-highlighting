@@ -13,20 +13,10 @@
     "repository": {
         "keywords": {
             "patterns": [{
-                "name": "keyword.control.lst",
-                "match": "\\b(if|while|for|return)\\b"
+                "comment": "GAMS errors",
+                "name": "support.function.lst",
+                "match": "^\\*\\*\\*\\*.*$\n?"
             }]
-        },
-        "strings": {
-            "name": "string.quoted.double.lst",
-            "begin": "\"",
-            "end": "\"",
-            "patterns": [
-                {
-                    "name": "constant.character.escape.lst",
-                    "match": "\\\\."
-                }
-            ]
         }
     },
     "scopeName": "source.lst"

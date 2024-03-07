@@ -3,16 +3,46 @@
 	"name": "GAMS",
 	"patterns": [
 		{
-			"include": "#keywords"
+			"include": "#general"
 		},
 		{
-			"include": "#strings"
+			"include": "#equationdef"
+		},    
+		{
+      		"include": "#math"
+		},		
+		{
+			"include": "#suffix"
 		},
 		{
-			"include": "#comments"
-		},
+			"include": "#operator"
+    	},
 		{
 			"include": "#gamY_commands"
+		},
+		{
+			"include": "#semicolon_after_group"
+		},
+		{
+			"include": "#gamY_function_call"
+		},
+		{
+			"include": "#keyword"
+		},
+		{
+			"include": "#parameter"
+		},
+		{
+			"include": "#scalar"
+		},
+		{
+			"include": "#set"
+		},
+		{
+			"include": "#table"
+		},
+		{
+			"include": "#variable"
 		},
 		{
 			"include": "#brackets"
@@ -21,112 +51,325 @@
 			"include": "#Conditions"
 		},
 		{
-			"include": "#equationSeparator"
-		},
-		{
-			"include": "#VariableSuffix"
-		},
-		{
-			"include": "#gamY_functions"
-		},
-		{
-			"include": "#following_text"
-		},
-		{
-			"include": "#semicolon_after_group"
-		},
-		{
-			"include": "#custom_keywords"
-		},
-		{
-			"include": "#math"
-		},
-		{
-			"include": "#numbers"
-		},
-		{
-			"include": "#double_dots"
-		},
-		{
-			"include": "#math_signs"
+			"include": "#group_command"
 		}
 	],
 	"repository": {
-		"equationSeparator": {
-			"name": "entity.name.type.gms",
-			"match": "(?i)(=e=|=l=|=g=|=x=)"
+		"argument": {
+            "match": "%(\\D\\w*%|\\d+)",
+            "name": "entity.name.class.gms"
+        },
+		"Conditions": {
+			"name": "keyword.gms",
+			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))|(\\$[^\\s]*\\s)"
 		},
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.gms",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+		"blockcomment": {
+			"begin": "(?i)^\\$ONTEXT",
+			"contentName": "comment.block.documentation.gms",
+			"end": "(?i)^\\$OFFTEXT",
+			"name": "keyword.control.gms"
 		},
-		"strings": {
-			"name": "string.quoted.double.gms",
+    	"blockcommentc": {
+			"begin": "/\\*",
+			"contentName": "comment.block.documentation.gms",
+			"end": "\\*/",
+			"name": "comment.slashstar.gms"
+    },
+	    "blockcommentcurly": {
+			"begin": "{",
+			"contentName": "comment.block.documentation.gms",
+			"end": "}",
+			"name": "comment.curly.gms"
+			},
+    	"doublequotestring": {
 			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+				"name": "punctuation.definition.string.begin.gms"
+				}
+			},
 			"end": "\"",
+			"endCaptures": {
+				"0": {
+				"name": "punctuation.definition.string.end.gms"
+				}
+			},
+			"name": "string.quoted.double.gms",
 			"patterns": [
 				{
-					"name": "constant.character.escape.gms",
-					"match": "\\\\."
+				"match": "%(\\w+%|\\d+)",
+				"name": "entity.name.class.gms"
 				}
 			]
-		},
-		"comments": {
-			"name": "comment.line.gms",
-			"match": "#.*"
-		},
+			},    
+		"fulllinecomment": {
+				"captures": {
+				"1": {
+					"name": "punctuation.definition.comment.gms"
+				}
+				},
+				"match": "^(\\*).*$\n?",
+				"name": "comment.line.star.gms"
+			},
+		"linecomment": {
+				"captures": {
+					"1": {
+					"name": "punctuation.definition.comment.gms"
+					}
+				},
+				"match": "(#|//)(?!\\[\\[).*$\\n?",
+				"name": "comment.line.sharp.gms"
+			},
+		"number": {
+				"match": "(?<![\\d.])\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?",
+				"name": "constant.numeric.gms"
+    		},
+		"singlequotestring": {
+				"begin": "'",
+				"beginCaptures": {
+					"0": {
+					"name": "punctuation.definition.string.begin.gms"
+					}
+				},
+				"end": "'",
+				"endCaptures": {
+					"0": {
+					"name": "punctuation.definition.string.end.gms"
+					}
+				},
+				"name": "string.quoted.single.gms",
+				"patterns": [
+					{
+					"match": "%(\\w+%|\\d+)",
+					"name": "entity.name.class.gms"
+					}
+				]
+				},
+		"preprocess": {
+				"match": "(?i)\\$(ABORT|BATINCLUDE|CALL|CLEAR|CLEARERRORS?|COMMENT|COMPRESS|DECOMPRESS|DEFINTION|DOLLAR|DOUBLE|DROP|DROP(ENV|GLOBAL|LOCAL)|ECHON?|EJECT|ELSE|ELSE(IF|IFE|IFI)|ENCRYPT|ENDIF|EOLCOM|ERROR|ESCAPE|EVAL|EVAL(GLOBAL|LOCAL)|EXIT|EXPOSE|FUNCLIBIN|GOTO|GDX(IN|OUT)|HIDDEN|HIDDENCALL|HIDE|IF|IF(E|I|THEN|THENE|THENI)|INCLUDE|INLINECOM|KILL|LABEL|LIBINCLUDE|LINES|LOAD|LOAD(DC|DCM|DCR|M|R)|LOG|MACRO|(MIN|MAX)COL|MAXGOTO|(ON|OFF)DELIM|(ON|OFF)DIGIT|(ON|OFF)DOLLAR|(ON|OFF)DOTL|(ON|OFF)ECHO|(ON|OFF)EMBEDDED|(ON|OFF)EMPTY|(ON|OFF)END|(ON|OFF)EOLCOM|(ON|OFF)EPS|(ON|OFF)EXPAND|(ON|OFF)GLOBAL|(ON|OFF)INCLUDE|(ON|OFF)INLINE|(ON|OFF)LISTING|(ON|OFF)LOCAL|(ON|OFF)LOG|(ON|OFF)MACRO|(ON|OFF)MARGIN|(ON|OFF)MULTI|(ON|OFF)NESTCOM|(ON|OFF)PUT|(ON|OFF)RECURSE|(ON|OFF)SYMLIST|(ON|OFF)SYMXREF|(ON|OFF)UELLIST|(ON|OFF)UELXREF|(ON|OFF)UNDF|(ON|OFF)VERBATIM|(ON|OFF)WARNING|(ON|OFF)UPPER|PHANTOM|PREFIXPATH|PROTECT|PURGE|REMARK|SET|SET(ARGS|COMPS|DDLIST|ENV|GLOBAL|LOCAL|NAMES)|SHIFT|SHOW|SINGLE|STARS|STITLE|STOP|SYSINCLUDE|TERMINATE|TITLE|UNLOAD|USE205|USE225|USE999|VERSION|WARNING)\\b",
+				"name": "keyword.other.special-method.gms"
+				},
+			"general": {
+      "patterns": [
+				{
+				"include": "#blockcomment"
+				},
+				{
+				"include": "#blockcommentcurly"
+				},
+				{
+				"include": "#blockcommentc"
+				},
+				{
+				"include": "#linecomment"
+				},
+				{
+				"include": "#fulllinecomment"
+				},
+				{
+				"include": "#number"
+				},
+				{
+				"include": "#singlequotestring"
+				},
+				{
+				"include": "#doublequotestring"
+				},
+				{
+				"include": "#preprocess"
+				},
+				{
+				"include": "#argument"
+				}
+			]
+			},		
+			"equation": {
+				"begin": "\\.\\.",
+				"beginCaptures": {
+					"0": {
+					"name": "keyword.control.gms"
+					}
+				},
+				"end": ";",
+				"name": "meta.function.gms",
+				"patterns": [
+					{
+					"include": "#general"
+					}
+				]
+			},
+		"equationseparator": {
+				"match": "(?i)(=e=|=l=|=g=|=x=)",
+				"name": "keyword.operator.gms"
+			},
+		"suffix": {
+				"match": "(?i)\\.(L|LO|UP|FX|SCALE|PRIOR|PC|PS|PW|TM|BM|CASE|DATE|IFILE|OFILE|PAGE|RDATE|RFILE|RTIME|SFILE|TIME|TITLE|TS|TL|TE|TF|LJ|NJ|SJ|TJ|LW|NW|SW|TW|ND|NR|NZ|CC|HDCC|TLCC|LL|HDLL|TLLL|LP|WS)\\b",
+				"name": "keyword.gms"
+			},
+		"operator": {
+				"match": "(\\b(and|or|not)\\b)|(\\+|-|%|#|\\*|\\/|\\*\\*|=|<=?|>=?)",
+				"name": "keyword.operator.gams"
+			},
+		"equationdef": {
+			"begin": "(\\.\\.)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.operator.gams"
+				}
+			},
+			"end": "(;)",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.operator.gams"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#general"
+				},
+				{
+					"include": "#equationseparator"
+				},
+				{
+					"include": "#math"
+				},
+				{
+					"include": "#suffix"
+				},
+				{
+					"include": "#operator"
+				},
+				{
+					"include": "#brackets"
+				}
+			]
+			},
 		"gamY_commands": {
-			"patterns": [{
-				"name": "keyword.control.gms",
-				"match": "(?i)(\\$\\b(IMPORT|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b)|\\bMODEL\\b"
-			}]
-		},
+				"match": "(?i)\\$(IMPORT|MODEL|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b",
+				"name": "keyword.other.special-method.gms"
+			},
+		"group_command": {
+				"begin": "(\\$GROUP)\\s+(\\w+)",
+				"beginCaptures": {
+					"1": {
+						"name": "keyword.control.gms"
+					},
+					"2": {
+						"name": "entity.name.function.gms"
+					}
+				},
+				"end": "(;)",
+				"endCaptures": {
+					"1": {
+						"name": "keyword.control.gms"
+					}
+				}
+			},
+		"gamY_function_call": {
+				"match": "(?i)(\\%\\w+\\((([\\w\\d]+),)*([\\w\\d]+)?\\)\\%)",
+				"name": "keyword.operator.gams"
+			},
+		"keyword": {
+				"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|MODELS?|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b",
+				"name": "keyword.other.special-method.gms"
+			},
+		"parameter": {
+				"begin": "(?i)(^|;)\\s*\\b(PARAMETERS?)\\s+",
+				"beginCaptures": {
+					"2": {
+					"name": "keyword.control.gms"
+					}
+				},
+				"end": ";",
+				"name": "meta.function.gms",
+				"patterns": [
+					{
+					"include": "#general"
+					}
+				]
+			},
+		"scalar": {
+				"begin": "(?i)(^|;)\\s*\\b(SCALARS?)",
+				"beginCaptures": {
+					"2": {
+					"name": "keyword.control.gms"
+					}
+				},
+				"end": ";",
+				"name": "meta.function.gms",
+				"patterns": [
+					{
+					"include": "#general"
+					},
+					{
+					"include": "#scalarvalue"
+					}
+				]
+			},
+		"scalarvalue": {
+				"begin": "\\/",
+				"contentName": "normal.gms",
+				"end": "\\/",
+				"name": "keyword.operator.gms",
+				"patterns": [
+					{
+					"match": "(?<![\\d.])(-)?\\d+(\\.\\d*)?([eE]-?\\d+)?|(-)?\\.\\d+([eE]-?\\d+)?|(\\.)?",
+					"name": "constant.numeric.lua"
+					},
+					{
+					"include": "#general"
+					}
+				]
+			},
+		"set": {
+				"begin": "(?i)(^|;)\\s*\\b(SETS?)\\s+",
+				"beginCaptures": {
+					"2": {
+					"name": "keyword.control.gms"
+					}
+				},
+				"end": ";",
+				"name": "meta.function.gms",
+				"patterns": [
+					{
+					"include": "#general"
+					}
+				]
+			},
+		"table": {
+				"begin": "(?i)(^|;)\\s*\\b(TABLES?)\\s+",
+				"beginCaptures": {
+				"2": {
+					"name": "keyword.control.gms"
+				}
+				},
+				"end": ";",
+				"name": "meta.function.gms",
+				"patterns": [
+				{
+					"include": "#general"
+				}
+				]
+			},
+		"variable": {
+				"begin": "(?i)(^|;)\\s*(\\b(VARIABLES?)|(\\bPOSITIVE\\s+VARIABLES?))\\s+",
+				"beginCaptures": {
+					"2": {
+					"name": "keyword.control.gms"
+					}
+				},
+				"end": ";",
+				"name": "meta.function.gms",
+				"patterns": [
+					{
+					"include": "#general"
+					}
+				]
+			},
 		"brackets": {
 			"name": "entity.name.type.gms",
 			"match": "\\[.*?\\]"
-		},
-		"Conditions": {
-			"name": "entity.name.function.gms",
-			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))|(\\$[^\\s]*\\s)"
-		},
-		"VariableSuffix": {
-			"name": "entity.name.function.gms",
-			"match": "\\.(lo|up|fx|l|m|scale|prior|stage)\\b"
-		},
-		"gamY_functions": {
-			"name": "keyword.control.gms",
-			"match": "@\\w+(?=\\(.*?\\))"
-		},
-		"following_text": {
-			"name": "keyword.operator.gams",
-			"match": "(?<=\\$(GROUP|BLOCK)\\s)\\b\\w+\\b"
-		},
-		"semicolon_after_group": {
-			"name": "keyword.control.gms",
-			"match": "(?<=\\$GROUP[\\s\\S]*?);"
-		},
-		"custom_keywords": {
-			"name": "keyword.control.gms",
-			"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|MODELS?|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b"
-		},
-		"math": {
-			"name": "support.function.math.gms",
-			"match": "(?i)\\b(ABS|ARCCOS|ARCSIN|ARCTAN|ARCTAN2|BETA|BETAREG|BINOMIAL|BOOL_(AND|EQV|IMP|NOT|OR|XOR)|CEIL|CENTROPY|COS|COSH|CVPOWER|DIV|DIV0|EDIST|ENTROPY|ERRORF|EXECSEED|EXP|FACT|FLOOR|FRAC|GAMMA|GAMMAREG|IFTHEN|LOG|LOG2|LOG10|LOGBETA|LOGGAMMA|MAPVAL|MAX|MIN|MOD|NCP(CM|F|VUPOW|VUSIN)|NORMAL|PI|POLY|POWER|RANDBINOMIAL|RANDLINEAR|RANDTRIANGLE|ROUND|RPOWER|SIGMOID|SIGN|SIGNPOWER|SIN|SINH|SL(EXP|LOG10|REC)|SQ(EXP|LOG10|R|REC|RT)|TANH?|TRUNC|UNIFORM|UNIFORMINT|VCPOWER)\\b"
-		},
-		"numbers": {
-			"name": "constant.numeric.gms",
-			"match": "\\b\\d+(\\.\\d+)?([eE][-+]?\\d+)?\\b"
-		},
-		"double_dots": {
-			"name": "entity.name.type.gms",
-			"match": "\\.\\."
-		},
-		"math_signs": {
-			"name": "entity.name.type.gms",
-			"match": "[+\\-*/^]"
-		}
+			}
 	},
 	"scopeName": "source.gms"
 }

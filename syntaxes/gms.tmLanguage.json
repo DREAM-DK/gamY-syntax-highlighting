@@ -24,6 +24,9 @@
 			"include": "#group_rule"
 		},
 		{
+			"include": "#model_rule"
+		},
+		{
 			"include": "#gamY_commands"
 		},
 		{
@@ -247,8 +250,8 @@
 				}
 			]
 			},
-			"E_rule": {
-					"match": "(E_\\w+)",
+		"E_rule": {
+					"match": "(?i)(E_\\w+)",
 					"captures": {
 						"1": {
 							"name": "constant.numeric.gms"
@@ -256,7 +259,7 @@
 					}
 				},
 		"block_rule": {
-				"begin": "(\\$BLOCK\\d*)\\s+(\\w+)",
+				"begin": "(?i)(\\$BLOCK\\d*)\\s+(\\w+)",
 				"beginCaptures": {
 					"1": {
 						"name": "keyword.control.gms"
@@ -290,8 +293,42 @@
 				}
 		   ]
 			},
+		"model_rule": {
+			"begin": "(?i)(MODEL)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.gms"
+				}
+			},
+			"end": "(;)",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.gms"
+				},
+				"2": {
+					"name": "keyword.control.gms"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#general"
+				},
+				{
+					"include": "#equationdef"
+				},
+				{
+					"include": "#Conditions"
+				},
+				{
+					"include": "#brackets"
+				},
+				{
+					"include": "#operator"
+				}
+			]
+		},
 		"group_rule": {
-				"begin": "(\\$GROUP\\d*)\\s+(\\w+)",
+				"begin": "(?i)(\\$GROUP\\d*)\\s+(\\w+)",
 				"beginCaptures": {
 					"1": {
 						"name": "keyword.control.gms"

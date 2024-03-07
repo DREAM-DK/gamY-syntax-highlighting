@@ -18,6 +18,12 @@
 			"include": "#operator"
     	},
 		{
+			"include": "#block_rule"
+		},
+		{
+			"include": "#group_rule"
+		},
+		{
 			"include": "#gamY_commands"
 		},
 		{
@@ -49,9 +55,6 @@
 		},
 		{
 			"include": "#Conditions"
-		},
-		{
-			"include": "#group_command"
 		}
 	],
 	"repository": {
@@ -60,8 +63,8 @@
             "name": "entity.name.class.gms"
         },
 		"Conditions": {
-			"name": "keyword.gms",
-			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))|(\\$[^\\s]*\\s)"
+			"name": "comment.block.documentation.gms",
+			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))"
 		},
 		"blockcomment": {
 			"begin": "(?i)^\\$ONTEXT",
@@ -244,26 +247,81 @@
 				}
 			]
 			},
-		"gamY_commands": {
-				"match": "(?i)\\$(IMPORT|MODEL|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b",
-				"name": "keyword.other.special-method.gms"
-			},
-		"group_command": {
-				"begin": "(\\$GROUP)\\s+(\\w+)",
+			"E_rule": {
+					"match": "(E_\\w+)",
+					"captures": {
+						"1": {
+							"name": "constant.numeric.gms"
+						}
+					}
+				},
+		"block_rule": {
+				"begin": "(\\$BLOCK\\d*)\\s+(\\w+)",
 				"beginCaptures": {
 					"1": {
 						"name": "keyword.control.gms"
 					},
 					"2": {
-						"name": "entity.name.function.gms"
+						"name": "constant.numeric.gms"
 					}
 				},
-				"end": "(;)",
+				"end": "(\\$ENDBLOCK)",
 				"endCaptures": {
 					"1": {
 						"name": "keyword.control.gms"
 					}
+				},
+				"applyEndPatternLast": true,
+				"patterns": [
+				{
+				"include": "#general"
+				},
+				{
+				"include": "#equationdef" 
+				},
+				{
+					"include": "#Conditions"
+				},
+				{
+					"include": "#brackets"
+				},
+				{
+					"include": "#E_rule"
 				}
+		   ]
+			},
+		"group_rule": {
+				"begin": "(\\$GROUP\\d*)\\s+(\\w+)",
+				"beginCaptures": {
+					"1": {
+						"name": "keyword.control.gms"
+					},
+					"2": {
+						"name": "constant.numeric.gms"
+					}
+				},
+				"end": "(\\;)",
+				"endCaptures": {
+					"1": {
+						"name": "keyword.control.gms"
+					}
+				},
+				"applyEndPatternLast": true,
+				"patterns": [
+				{
+				"include": "#general"
+				},
+				{
+					"include": "#brackets"
+				},
+				{
+					"include": "#Conditions"
+				}
+		   ]
+			},
+		"gamY_commands": {
+				"match": "(?i)\\$(IMPORT|MODEL|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b",
+				"name": "keyword.other.special-method.gms"
 			},
 		"gamY_function_call": {
 				"match": "(?i)(\\%\\w+\\((([\\w\\d]+),)*([\\w\\d]+)?\\)\\%)",

@@ -54,7 +54,7 @@
 			"include": "#variable"
 		},
 		{
-			"include": "#brackets"
+			"include": "#cornerbrackets"
 		},
 		{
 			"include": "#Conditions"
@@ -68,8 +68,12 @@
             "match": "%(\\D\\w*%|\\d+)",
             "name": "entity.name.class.gms"
         },
+		"comma_and_dot": {
+			"match": "[,\\.]",
+			"name": "entity.name.type.gms"
+		},
 		"Conditions": {
-			"name": "comment.block.documentation.gms",
+			"name": "keyword.control.conditional.gms",
 			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))"
 		},
 		"blockcomment": {
@@ -90,7 +94,7 @@
 			"end": "}",
 			"name": "comment.curly.gms"
 			},
-    	"doublequotestring": {
+    	"doublequotestring1": {
 			"begin": "\"",
 			"beginCaptures": {
 				"0": {
@@ -110,7 +114,28 @@
 				"name": "entity.name.class.gms"
 				}
 			]
-			},    
+			},
+		"doublequotestring2": {
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+				"name": "comment.line.sharp.gms"
+				}
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": {
+				"name": "comment.line.sharp.gms"
+				}
+			},
+			"name": "comment.line.sharp.gms",
+			"patterns": [
+				{
+				"match": "%(\\w+%|\\d+)",
+				"name": "comment.line.sharp.gms"
+				}
+			]
+			},   
 		"fulllinecomment": {
 				"captures": {
 				"1": {
@@ -164,6 +189,9 @@
 				"include": "#blockcomment"
 				},
 				{
+				"include": "#doublequotestring1"
+				},
+				{
 				"include": "#blockcommentcurly"
 				},
 				{
@@ -182,13 +210,13 @@
 				"include": "#singlequotestring"
 				},
 				{
-				"include": "#doublequotestring"
-				},
-				{
 				"include": "#preprocess"
 				},
 				{
 				"include": "#argument"
+				},
+				{
+				"include": "#comma_and_dot"
 				}
 			]
 			},		
@@ -249,7 +277,7 @@
 					"include": "#operator"
 				},
 				{
-					"include": "#brackets"
+					"include": "#cornerbrackets"
 				},
 				{
 					"include": "#keyword"
@@ -286,19 +314,25 @@
 				"include": "#general"
 				},
 				{
+				"include": "#doublequotestring2"
+				},
+				{
 				"include": "#equationdef" 
 				},
 				{
 					"include": "#Conditions"
 				},
 				{
-					"include": "#brackets"
+					"include": "#cornerbrackets"
 				},
 				{
 					"include": "#E_rule"
 				},
 				{
 					"include": "#functions"
+				},
+				{
+					"include": "#brackets1"
 				}
 		   ]
 			},
@@ -329,7 +363,7 @@
 					"include": "#Conditions"
 				},
 				{
-					"include": "#brackets"
+					"include": "#cornerbrackets"
 				},
 				{
 					"include": "#operator"
@@ -355,10 +389,13 @@
 				"applyEndPatternLast": true,
 				"patterns": [
 				{
+				"include": "#doublequotestring2"
+				},
+				{
 				"include": "#general"
 				},
 				{
-					"include": "#brackets"
+					"include": "#cornerbrackets"
 				},
 				{
 					"include": "#Conditions"
@@ -367,7 +404,7 @@
 			},
 		"gamY_commands": {
 				"match": "(?i)\\$(IMPORT|MODEL|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b",
-				"name": "keyword.other.special-method.gms"
+				"name": "keyword.control.gms"
 			},
 		"gamY_function_call": {
 				"match": "(?i)(\\%\\w+\\((([\\w\\d]+),)*([\\w\\d]+)?\\)\\%)",
@@ -385,10 +422,21 @@
 					}
 				},
 				"end": ";",
+				"endCaptures": {
+					"0": {
+					"name": "keyword.control.gms"
+					}
+				},
 				"name": "meta.function.gms",
 				"patterns": [
 					{
 					"include": "#general"
+					},
+					{
+						"include": "#cornerbrackets"
+					},
+					{
+						"include": "#operator"
 					}
 				]
 			},
@@ -426,17 +474,28 @@
 				]
 			},
 		"set": {
-				"begin": "(?i)(^|;)\\s*\\b(SETS?)\\s+",
+				"begin": "(?i)(^|;)\\s*\\b(singleton\\s+SETS?|SETS?)\\s+",
 				"beginCaptures": {
 					"2": {
-					"name": "keyword.control.gms"
+						"name": "keyword.control.gms"
 					}
 				},
 				"end": ";",
+				"endCaptures": {
+					"0": {
+						"name": "keyword.control.gms"
+					}
+				},
 				"name": "meta.function.gms",
 				"patterns": [
 					{
 					"include": "#general"
+					},
+					{
+					"include": "#cornerbrackets"
+					},
+					{
+					"include": "#operator"
 					}
 				]
 			},
@@ -470,14 +529,134 @@
 					}
 				]
 			},
-		"brackets": {
-			"name": "entity.name.type.gms",
-			"match": "\\[.*?\\]"
+		"cornerbrackets": {
+				"name": "entity.name.type.gms",
+				"match": "\\[.*?\\]"
+			},
+		"brackets1": {
+				"begin": "(\\()",
+				"end": "(\\))",
+				"beginCaptures": {
+					"1": {"name": "punctuation.brackets.1.gms"}
+				},
+				"endCaptures": {
+					"1": {"name": "punctuation.brackets.1.gms"}
+				},
+				"patterns": [
+					{
+						"include": "#brackets2"
+					},
+					{
+						"include": "#general"
+					},
+					{
+						"include": "#Conditions"
+					},
+					{
+						"include": "#cornerbrackets"
+					},
+					{
+						"include": "#E_rule"
+					},
+					{
+						"include": "#functions"
+					}
+				]
+			},
+		"brackets2": {
+				"begin": "(\\()",
+				"end": "(\\))",
+				"beginCaptures": {
+					"1": {"name": "punctuation.brackets.2.gms"}
+				},
+				"endCaptures": {
+					"1": {"name": "punctuation.brackets.2.gms"}
+				},
+				"patterns": [
+					{
+						"include": "#brackets3"
+					},
+					{
+						"include": "#general"
+					},
+					{
+						"include": "#Conditions"
+					},
+					{
+						"include": "#cornerbrackets"
+					},
+					{
+						"include": "#E_rule"
+					},
+					{
+						"include": "#functions"
+					}
+				]
+			},
+		"brackets3": {
+				"begin": "(\\()",
+				"end": "(\\))",
+				"beginCaptures": {
+					"1": {"name": "punctuation.brackets.3.gms"}
+				},
+				"endCaptures": {
+					"1": {"name": "punctuation.brackets.3.gms"}
+				},
+				"patterns": [
+					{
+						"include": "#brackets4"
+					},
+					{
+						"include": "#general"
+					},
+					{
+						"include": "#Conditions"
+					},
+					{
+						"include": "#cornerbrackets"
+					},
+					{
+						"include": "#E_rule"
+					},
+					{
+						"include": "#functions"
+					}
+				]
+			},
+		"brackets4": {
+				"begin": "(\\()",
+				"end": "(\\))",
+				"beginCaptures": {
+					"1": {"name": "punctuation.brackets.4.gms"}
+				},
+				"endCaptures": {
+					"1": {"name": "punctuation.brackets.4.gms"}
+				},
+				"patterns": [
+					{
+						"include": "#brackets1"
+					},
+					{
+						"include": "#general"
+					},
+					{
+						"include": "#Conditions"
+					},
+					{
+						"include": "#cornerbrackets"
+					},
+					{
+						"include": "#E_rule"
+					},
+					{
+						"include": "#functions"
+					}
+				]
 			},
 		"functions": {
-			"name": "keyword.control.gms",
-			"match": "@\\w+(?=\\(.*?\\))"
-	}
+				"name": "keyword.control.gms",
+				"match": "@\\w+(?=\\(.*?\\))"
+			}
 	},
 	"scopeName": "source.gms"
 }

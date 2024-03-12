@@ -14,8 +14,8 @@
         "keywords": {
             "patterns": [{
                 "comment": "GAMS errors",
-                "name": "support.function.lst",
-                "match": "^\\*\\*\\*\\*.*$\n?"
+                "name": "entity.name.type",
+                "match": "^\\*\\*\\*\\*.*"
             }]
         }
     },

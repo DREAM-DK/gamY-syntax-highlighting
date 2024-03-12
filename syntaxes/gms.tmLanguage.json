@@ -58,6 +58,9 @@
 		},
 		{
 			"include": "#Conditions"
+		},
+		{
+			"include": "#functions"
 		}
 	],
 	"repository": {
@@ -247,6 +250,9 @@
 				},
 				{
 					"include": "#brackets"
+				},
+				{
+					"include": "#keyword"
 				}
 			]
 			},
@@ -290,6 +296,9 @@
 				},
 				{
 					"include": "#E_rule"
+				},
+				{
+					"include": "#functions"
 				}
 		   ]
 			},
@@ -464,7 +473,11 @@
 		"brackets": {
 			"name": "entity.name.type.gms",
 			"match": "\\[.*?\\]"
-			}
+			},
+		"functions": {
+			"name": "keyword.control.gms",
+			"match": "@\\w+(?=\\(.*?\\))"
+	}
 	},
 	"scopeName": "source.gms"
 }

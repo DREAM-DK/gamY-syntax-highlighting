@@ -2,6 +2,9 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "GAMS",
 	"patterns": [
+		{ 
+			"include": "#GAMSerrors"
+		},
 		{
 			"include": "#general"
 		},
@@ -72,6 +75,10 @@
 			"match": "[,\\.]",
 			"name": "entity.name.type.gms"
 		},
+		"GAMSerrors": {
+			"match": "^\\*\\*\\*\\*",
+			"name": "entity.name.type.gms"
+    	},
 		"Conditions": {
 			"name": "keyword.control.conditional.gms",
 			"match": "(\\$\\(([^\\(\\)]|\\([^\\(\\)]*(\\([^\\(\\)]*\\)[^\\(\\)]*)*\\))*\\))"
@@ -337,7 +344,7 @@
 		   ]
 			},
 		"model_rule": {
-			"begin": "(?i)(MODEL)",
+			"begin": "^\\s*(?i)(MODEL)\\s+\\w+/",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.gms"
@@ -345,10 +352,7 @@
 			},
 			"end": "(;)",
 			"endCaptures": {
-				"1": {
-					"name": "keyword.control.gms"
-				},
-				"2": {
+				"0": {
 					"name": "keyword.control.gms"
 				}
 			},

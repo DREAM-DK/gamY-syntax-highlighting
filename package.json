@@ -20,11 +20,6 @@
       "language": "gms",
       "scopeName": "source.gms",
       "path": "./syntaxes/Gms.tmLanguage.json"
-    },
-    {
-      "language": "lst",
-      "scopeName": "source.lst",
-      "path": "./syntaxes/Lst.tmLanguage.json"
     }]
   }
 }

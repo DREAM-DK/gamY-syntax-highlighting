@@ -2,24 +2,6 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "GAMS",
 	"patterns": [
-		{ 
-			"include": "#GAMSerrors"
-		},
-		{
-			"include": "#general"
-		},
-		{
-			"include": "#equationdef"
-		},    
-		{
-      		"include": "#math"
-		},		
-		{
-			"include": "#suffix"
-		},
-		{
-			"include": "#operator"
-    	},
 		{
 			"include": "#block_rule"
 		},
@@ -29,6 +11,24 @@
 		{
 			"include": "#model_rule"
 		},
+		{ 
+			"include": "#macro_rule"
+		},
+		{ 
+			"include": "#GAMSerrors"
+		},
+		{
+			"include": "#general"
+		},
+		{
+			"include": "#equationdef"
+		},    	
+		{
+			"include": "#suffix"
+		},
+		{
+			"include": "#operator"
+    	},
 		{
 			"include": "#gamY_commands"
 		},
@@ -64,6 +64,9 @@
 		},
 		{
 			"include": "#functions"
+		},
+		{ 
+			"include": "#symbols" 
 		}
 	],
 	"repository": {
@@ -71,8 +74,8 @@
             "match": "%(\\D\\w*%|\\d+)",
             "name": "entity.name.class.gms"
         },
-		"comma_and_dot": {
-			"match": "[,\\.]",
+		"symbols": {
+			"match": "[,.;\\\\/]",
 			"name": "entity.name.type.gms"
 		},
 		"GAMSerrors": {
@@ -221,9 +224,6 @@
 				},
 				{
 				"include": "#argument"
-				},
-				{
-				"include": "#comma_and_dot"
 				}
 			]
 			},		
@@ -239,12 +239,18 @@
 				"patterns": [
 					{
 					"include": "#general"
+					},
+					{
+						 "include": "#equationseparator"
+					},
+					{
+						 "include": "#operator"
 					}
 				]
 			},
 		"equationseparator": {
 				"match": "(?i)(=e=|=l=|=g=|=x=)",
-				"name": "keyword.operator.gms"
+				"name": "entity.name.type.gms"
 			},
 		"suffix": {
 				"match": "(?i)\\.(L|LO|UP|FX|SCALE|PRIOR|PC|PS|PW|TM|BM|CASE|DATE|IFILE|OFILE|PAGE|RDATE|RFILE|RTIME|SFILE|TIME|TITLE|TS|TL|TE|TF|LJ|NJ|SJ|TJ|LW|NW|SW|TW|ND|NR|NZ|CC|HDCC|TLCC|LL|HDLL|TLLL|LP|WS)\\b",
@@ -252,19 +258,19 @@
 			},
 		"operator": {
 				"match": "(\\b(and|or|not)\\b)|(\\+|-|%|#|\\*|\\/|\\*\\*|=|<=?|>=?)",
-				"name": "keyword.operator.gams"
+				"name": "entity.name.type.gms"
 			},
 		"equationdef": {
 			"begin": "(\\.\\.)",
 			"beginCaptures": {
 				"1": {
-					"name": "keyword.operator.gams"
+					"name": "entity.name.type.gms"
 				}
 			},
 			"end": "(;)",
 			"endCaptures": {
 				"1": {
-					"name": "keyword.operator.gams"
+					"name": "entity.name.type.gms"
 				}
 			},
 			"patterns": [
@@ -272,29 +278,26 @@
 					"include": "#general"
 				},
 				{
+					"include": "#cornerbrackets"
+				},
+				{
 					"include": "#equationseparator"
-				},
-				{
-					"include": "#math"
-				},
-				{
-					"include": "#suffix"
 				},
 				{
 					"include": "#operator"
 				},
 				{
-					"include": "#cornerbrackets"
+					"include": "#keyword"
 				},
 				{
-					"include": "#keyword"
+					"include": "#brackets1"
 				}
 			]
 			},
 		"E_rule": {
 					"match": "(?i)(E_\\w+)",
 					"captures": {
-						"1": {
+						"0": {
 							"name": "constant.numeric.gms"
 						}
 					}
@@ -318,45 +321,36 @@
 				"applyEndPatternLast": true,
 				"patterns": [
 				{
-				"include": "#general"
+					"include": "#equationdef" 
 				},
 				{
-				"include": "#doublequotestring2"
-				},
-				{
-				"include": "#equationdef" 
+					"include": "#general"
 				},
 				{
 					"include": "#Conditions"
 				},
 				{
-					"include": "#cornerbrackets"
-				},
-				{
 					"include": "#E_rule"
 				},
 				{
-					"include": "#functions"
-				},
-				{
-					"include": "#brackets1"
+					"include": "#cornerbrackets"
 				}
 		   ]
 			},
 		"model_rule": {
-			"begin": "^\\s*(?i)(MODEL)\\s+\\w+/",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.gms"
-				}
-			},
-			"end": "(;)",
-			"endCaptures": {
-				"0": {
-					"name": "keyword.control.gms"
-				}
-			},
-			"patterns": [
+				"begin": "^\\s*(?i)(MODEL)",
+				"beginCaptures": {
+					"0": {
+						"name": "keyword.control.gms"
+					}
+				},
+				"end": "(;)",
+				"endCaptures": {
+					"0": {
+						"name": "entity.name.type.gms"
+					}
+				},
+				"patterns": [
 				{
 					"include": "#general"
 				},
@@ -406,6 +400,25 @@
 				}
 		   ]
 			},
+		"macro_rule": {
+				"begin": "(?i)(\\$MACRO)\\s+",
+				"beginCaptures": {
+					"1": {
+						"name": "keyword.control.gms"
+					}
+				},
+				"end": "(\\w+)",
+				"endCaptures": {
+					"0": {
+						"name": "constant.numeric.gms"
+					}
+				},
+				"patterns": [
+					{
+						"include": "#general"
+					}
+				]
+			},
 		"gamY_commands": {
 				"match": "(?i)\\$(IMPORT|MODEL|GROUP|SAVE|DISPLAY|FIX|UNFIX|OUTPUT|IF\\d*|ENDIF\\d*|BLOCK\\d*|ENDBLOCK|FOR\\d*|ENDFOR\\d*|LOOP\\d*|ENDLOOP\\d*|FUNCTION|ENDFUNCTION|REGEX\\d*|ENDREGEX\\d*|SUB\\d*|ENDSUB\\d*)\\b",
 				"name": "keyword.control.gms"
@@ -415,7 +428,7 @@
 				"name": "keyword.operator.gams"
 			},
 		"keyword": {
-				"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|MODELS?|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b",
+				"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b",
 				"name": "keyword.other.special-method.gms"
 			},
 		"parameter": {
@@ -494,8 +507,8 @@
 				"patterns": [
 					{
 					"include": "#general"
-					},
-					{
+					}
+					,{
 					"include": "#cornerbrackets"
 					},
 					{

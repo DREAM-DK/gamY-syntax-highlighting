@@ -33,9 +33,6 @@
 			"include": "#gamY_commands"
 		},
 		{
-			"include": "#semicolon_after_group"
-		},
-		{
 			"include": "#gamY_function_call"
 		},
 		{
@@ -98,12 +95,6 @@
 			"end": "\\*/",
 			"name": "comment.slashstar.gms"
     },
-	    "blockcommentcurly": {
-			"begin": "{",
-			"contentName": "comment.block.documentation.gms",
-			"end": "}",
-			"name": "comment.curly.gms"
-			},
     	"doublequotestring1": {
 			"begin": "\"",
 			"beginCaptures": {
@@ -200,9 +191,6 @@
 				},
 				{
 				"include": "#doublequotestring1"
-				},
-				{
-				"include": "#blockcommentcurly"
 				},
 				{
 				"include": "#blockcommentc"

@@ -1,5 +1,5 @@
-# gamY package for vscode
-Package to use vscode together with gamY, a macro language built on top of GAMS.
+# Syntax highlighting for vscode
+Package for syntax highlighting for GAMS in vscode 
 
 ## Features
 - Syntax highlighting

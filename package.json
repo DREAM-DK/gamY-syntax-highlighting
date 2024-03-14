@@ -3,6 +3,10 @@
   "displayName": "MAKRO_GAMS_HIGHLIGHTING",
   "description": "Syntaxhighlighting for GAMS created for the MAKRO project at DREAM",
   "version": "0.0.1",
+  "publisher": "jeppekinslev",
+  "repository": {
+    "url": "https://github.com/jeppekinslev/makro-gams-highlighting"
+  },
   "engines": {
     "vscode": "^1.87.0"
   },

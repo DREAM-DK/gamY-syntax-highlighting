@@ -2,7 +2,7 @@
   "name": "makro-gams-highlighting",
   "displayName": "MAKRO_GAMS_HIGHLIGHTING",
   "description": "Syntaxhighlighting for GAMS created for the MAKRO project at DREAM",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "jeppekinslev",
   "repository": {
     "url": "https://github.com/jeppekinslev/makro-gams-highlighting"
@@ -14,16 +14,26 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "gms",
-      "aliases": ["GAMS", "gms"],
-      "extensions": [".gms",".lst"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "gms",
-      "scopeName": "source.gms",
-      "path": "./syntaxes/Gms.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "gms",
+        "aliases": [
+          "GAMS",
+          "gms"
+        ],
+        "extensions": [
+          ".gms",
+          ".lst"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gms",
+        "scopeName": "source.gms",
+        "path": "./syntaxes/Gms.tmLanguage.json"
+      }
+    ]
   }
 }

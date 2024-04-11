@@ -8,9 +8,6 @@
 		{
 			"include": "#group_rule"
 		},
-		{
-			"include": "#model_rule"
-		},
 		{ 
 			"include": "#macro_rule"
 		},
@@ -325,37 +322,6 @@
 				}
 		   ]
 			},
-		"model_rule": {
-				"begin": "^\\s*(?i)(MODEL)",
-				"beginCaptures": {
-					"0": {
-						"name": "keyword.control.gms"
-					}
-				},
-				"end": "(;)",
-				"endCaptures": {
-					"0": {
-						"name": "entity.name.type.gms"
-					}
-				},
-				"patterns": [
-				{
-					"include": "#general"
-				},
-				{
-					"include": "#equationdef"
-				},
-				{
-					"include": "#Conditions"
-				},
-				{
-					"include": "#cornerbrackets"
-				},
-				{
-					"include": "#operator"
-				}
-			]
-		},
 		"group_rule": {
 				"begin": "(?i)(\\$GROUP\\d*)\\s+(\\w+)",
 				"beginCaptures": {
@@ -416,7 +382,7 @@
 				"name": "keyword.operator.gams"
 			},
 		"keyword": {
-				"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b",
+				"match": "(?i)\\b(ABORT|ACRONYMS?|ALIAS|MODEL|ALL|AND|ASSIGN|BINARY|CARD|DISPLAY|EPS|EQ|GE|GT|INF|INTEGER|LE|LOOP|LT|MAXIMIZING|MINIMIZING|NA|NE|NEGATIVE|NOT|OPTION|OPTIONS|OR|ORD|PROD|SMAX|SMIN|SOS1|SOS2|SUM|SYSTEM|TABLE|USING|XOR|YES|REPEAT|UNTIL|WHILE|IF|THEN|ELSE|SEMICONT|SEMIINT|FILES?|PUT|PUTPAGE|PUTTL|PUTCLOSE|FREE|NO|SOLVE|FOR|ELSEIF)\\b",
 				"name": "keyword.other.special-method.gms"
 			},
 		"parameter": {

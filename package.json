@@ -2,7 +2,7 @@
   "name": "makro-gams-highlighting",
   "displayName": "MAKRO_GAMS_HIGHLIGHTING",
   "description": "Syntaxhighlighting for GAMS created for the MAKRO project at DREAM",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "jeppekinslev",
   "repository": {
     "url": "https://github.com/jeppekinslev/makro-gams-highlighting"

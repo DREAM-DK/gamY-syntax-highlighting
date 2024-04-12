@@ -531,6 +531,9 @@
 					},
 					{
 						"include": "#functions"
+					},
+					{
+					"include": "#operator"
 					}
 				]
 			},
@@ -561,6 +564,9 @@
 					},
 					{
 						"include": "#functions"
+					},
+					{
+					"include": "#operator"
 					}
 				]
 			},
@@ -591,6 +597,9 @@
 					},
 					{
 						"include": "#functions"
+					},
+					{
+					"include": "#operator"
 					}
 				]
 			},
@@ -621,6 +630,9 @@
 					},
 					{
 						"include": "#functions"
+					},
+					{
+					"include": "#operator"
 					}
 				]
 			},

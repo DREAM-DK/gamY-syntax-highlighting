@@ -297,7 +297,7 @@
 						"name": "constant.numeric.gms"
 					}
 				},
-				"end": "(\\$ENDBLOCK)",
+				"end": "(?i)(\\$ENDBLOCK)",
 				"endCaptures": {
 					"1": {
 						"name": "keyword.control.gms"

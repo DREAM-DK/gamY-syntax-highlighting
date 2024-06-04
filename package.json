@@ -1,7 +1,7 @@
 {
-  "name": "makro-gams-highlighting",
-  "displayName": "MAKRO_GAMS_HIGHLIGHTING",
-  "description": "Syntaxhighlighting for GAMS created for the MAKRO project at DREAM",
+  "name": "gamY-syntax-highlighting",
+  "displayName": "gamY-syntax-highlighting ",
+  "description": "Syntaxhighlighting for GAMS",
   "version": "0.3.0",
   "publisher": "jeppekinslev",
   "repository": {

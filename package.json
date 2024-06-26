@@ -32,7 +32,7 @@
       {
         "language": "gms",
         "scopeName": "source.gms",
-        "path": "./syntaxes/Gms.tmLanguage.json"
+        "path": "./syntaxes/gms.json"
       }
     ]
   }

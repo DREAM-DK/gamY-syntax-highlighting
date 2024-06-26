@@ -2,7 +2,7 @@
   "name": "gamY-syntax-highlighting",
   "displayName": "gamY-syntax-highlighting ",
   "description": "Syntaxhighlighting for GAMS",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "publisher": "jeppekinslev",
   "repository": {
     "url": "https://github.com/jeppekinslev/makro-gams-highlighting"

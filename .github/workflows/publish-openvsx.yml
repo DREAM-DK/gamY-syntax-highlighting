@@ -1,0 +1,40 @@
+name: Publish to Open VSX (personal via CI patch)
+
+on:
+  push:
+    tags: [ "v*.*.*" ]   # e.g. v0.6.0, v0.6.1
+  workflow_dispatch:      # manual run from the Actions tab
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      MY_OVSX_PUBLISHER: YOUR_OVSX_NAMESPACE   # <-- change this
+
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+
+      - name: Install deps
+        run: npm ci || npm install
+
+      # CI-only: swap publisher/displayName (doesn't touch git)
+      - name: Patch package.json publisher (CI-only)
+        run: |
+          node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));p.publisher=process.env.MY_OVSX_PUBLISHER;p.displayName=(p.displayName||p.name)+' (Unofficial)';fs.writeFileSync('package.json',JSON.stringify(p,null,2));"
+
+      - name: Build (if needed)
+        run: npm run build --if-present
+
+      - name: Package VSIX
+        run: npx --yes @vscode/vsce package
+
+      - name: Publish to Open VSX
+        uses: HaaLeo/publish-vscode-extension@v2
+        with:
+          pat: ${{ secrets.OPEN_VSX_TOKEN_PERSONAL }}   # <-- matches the secret you created
+          registryUrl: https://open-vsx.org
+          extensionFile: "*.vsix"

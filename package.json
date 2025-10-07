@@ -3,12 +3,12 @@
   "displayName": "gamY-syntax-highlighting ",
   "description": "Syntaxhighlighting for GAMS",
   "version": "0.6.0",
-  "publisher": "jeppekinslev",
+  "publisher": "DREAM-DK",
   "repository": {
-    "url": "https://github.com/jeppekinslev/makro-gams-highlighting"
+    "url": "https://github.com/DREAM-DK/makro-gams-highlighting"
   },
   "engines": {
-    "vscode": "^1.87.0"
+    "vscode": ">=1.50.0"
   },
   "categories": [
     "Programming Languages"

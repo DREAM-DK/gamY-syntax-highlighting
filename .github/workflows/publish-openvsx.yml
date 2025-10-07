@@ -9,7 +9,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      MY_OVSX_PUBLISHER: YOUR_OVSX_NAMESPACE   # <-- change this
+      MY_OVSX_PUBLISHER: JonathanWPedersen
 
     steps:
       - uses: actions/checkout@v4

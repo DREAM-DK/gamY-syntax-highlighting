@@ -2,8 +2,8 @@ name: Publish to Open VSX (personal via CI patch)
 
 on:
   push:
-    tags: [ "v*.*.*" ]
-  workflow_dispatch:
+    tags: [ "v*.*.*" ]   # trigger on tags like v0.6.1
+  workflow_dispatch:      # or run manually from Actions tab
 
 jobs:
   publish:
@@ -21,18 +21,40 @@ jobs:
       - name: Install deps
         run: npm ci || npm install
 
+      # Patch the publisher ONLY for the CI-built package
       - name: Patch package.json publisher (CI-only)
         run: |
           node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));p.publisher=process.env.MY_OVSX_PUBLISHER;p.displayName=(p.displayName||p.name)+' (Unofficial)';fs.writeFileSync('package.json',JSON.stringify(p,null,2));"
 
+      # (Optional but helpful) ensure Cursor compatibility if engines is too strict
+      - name: Patch engines.vscode (CI-only)
+        run: |
+          node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));p.engines=p.engines||{};p.engines.vscode='>=1.50.0';fs.writeFileSync('package.json',JSON.stringify(p,null,2));"
+
+      # Print the exact ID+URL we’re publishing (useful for Cursor search)
+      - name: Show final extension ID and URL
+        run: |
+          echo "ID: $MY_OVSX_PUBLISHER.$(node -p "require('./package.json').name")"
+          echo "URL: https://open-vsx.org/extension/$MY_OVSX_PUBLISHER/$(node -p "require('./package.json').name")"
+
+      # Create your namespace the first time (no-op if it already exists)
       - name: Ensure Open VSX namespace exists
         run: npx --yes ovsx create-namespace "$MY_OVSX_PUBLISHER" --pat "${{ secrets.OPEN_VSX_TOKEN_PERSONAL }}" || echo "Namespace already exists"
 
       - name: Build (if needed)
         run: npm run build --if-present
 
+      # Let the action PACKAGE and PUBLISH from the repo root
       - name: Publish to Open VSX
+        id: openvsx
         uses: HaaLeo/publish-vscode-extension@v2
         with:
           pat: ${{ secrets.OPEN_VSX_TOKEN_PERSONAL }}
-          packagePath: ./
+          packagePath: ./   # change only if your extension is in a subfolder
+
+      # Save the produced VSIX so you can install it manually in Cursor
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: ${{ steps.openvsx.outputs.vsixPath }}
